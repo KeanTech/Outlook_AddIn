@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using Outlook = Microsoft.Office.Interop.Outlook;
 using Office = Microsoft.Office.Core;
+using System.Windows.Forms;
 
 namespace Outlook_BackUp
 {
@@ -12,12 +13,13 @@ namespace Outlook_BackUp
     {
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-         
-
+            Outlook.MAPIFolder inbox = this.Application.ActiveExplorer().Session.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderInbox);
+            Outlook.Items unreadItems = inbox.Items.Restrict("[Unread]=true");
+            MessageBox.Show(string.Format("Unread items in inbox = {0}", unreadItems.Count));
         }
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
-            // Note: Outlook no longer raises this event. If you have code that 
+            // Note: Outlook no longer raises this event. If you have code that
             // must run when Outlook shuts down, see https://go.microsoft.com/fwlink/?LinkId=506785
         }
         #region VSTO generated code
